@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ES6"
+        ],
+        "outDir": "dist",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "declaration": true
+    },
+    "include": [
+        "src"
+    ],
+}
