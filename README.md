@@ -1,4 +1,7 @@
 # Core.TS
+
+![Node.js Package](https://github.com/yanshouwang/Core.TS/workflows/Node.js%20Package/badge.svg)
+
 Core Lib for TypeScript
 
 ## 介绍
