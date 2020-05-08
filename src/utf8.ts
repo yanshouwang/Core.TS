@@ -5,7 +5,8 @@ class UTF8 implements Encoding {
         const array: number[] = [];
         for (let i = 0; i < str.length; i++) {
             let code = str.charCodeAt(i);
-            // UTF-16 编码范围在 0 - 0xFFFF 之间，辅助平面通过代理对实现
+            // UTF-16 编码范围 : 0 - 0xFFFF
+            // 辅助平面通过代理对实现
             if (code < 0x80) {
                 // 1 字节 (ASCII)
                 array.push(code);
@@ -25,12 +26,12 @@ class UTF8 implements Encoding {
                 // 高位代理 : 0xD800 - 0xDBFF
                 // 低位代理 : 0xDC00 - 0xDFFF
                 if (i == str.length - 1 || code > 0xDBFF) {
-                    continue;
+                    throw new RangeError();
                 }
                 const j = i + 1;
                 const next = str.charCodeAt(j);
                 if (next < 0xDC00 || next > 0xDFFF) {
-                    continue;
+                    throw new RangeError();
                 }
                 const higher = code - 0xD800;
                 const lower = next - 0xDC00;
@@ -108,8 +109,7 @@ class UTF8 implements Encoding {
                 code = code - 0x10000;
                 const higher = (code >>> 10) + 0xD800;
                 const lower = (code & 0x003FF) + 0xDC00;
-                str += String.fromCharCode(higher);
-                str += String.fromCharCode(lower);
+                str += String.fromCharCode(higher, lower);
                 i = j;
             } else {
                 throw new RangeError();

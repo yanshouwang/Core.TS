@@ -1,5 +1,10 @@
 {
-    "extension": "ts",
+    "extension": [
+        "ts"
+    ],
     "spec": "tests/*.spec.ts",
-    "require": "ts-node/register"
+    "require": "ts-node/register",
+    "timeout": 2000,
+    "ui": "tdd",
+    "colors": true
 }
