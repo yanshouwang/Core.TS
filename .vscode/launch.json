@@ -7,10 +7,12 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "UTF-8",
+            "name": "单元测试",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "args": [
-                "tests/utf8.spec.ts"
+            "args": [],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
             ]
         }
     ]
