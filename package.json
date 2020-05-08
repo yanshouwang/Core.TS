@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@yanshouwang/core",
   "version": "1.0.0",
   "description": "Core Lib of TypeScript",
   "main": "dist/core.js",
@@ -14,6 +14,10 @@
     "ASCII",
     "UTF8"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yanshouwang/Core.TS.git"
+  },
   "author": "iDotNET",
   "license": "MIT",
   "devDependencies": {
