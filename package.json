@@ -9,7 +9,10 @@
     "build": "node ./node_modules/typescript/lib/tsc.js"
   },
   "keywords": [
-    "Core"
+    "Core",
+    "Encoding",
+    "ASCII",
+    "UTF8"
   ],
   "author": "iDotNET",
   "license": "MIT",

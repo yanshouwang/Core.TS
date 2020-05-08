@@ -5,9 +5,8 @@ class UTF8 implements Encoding {
         const array: number[] = [];
         for (let i = 0; i < str.length; i++) {
             let code = str.charCodeAt(i);
-            if (code < 0 || code > 0xFFFF) {
-                continue;
-            } else if (code < 0x80) {
+            // UTF-16 编码范围在 0 - 0xFFFF 之间，辅助平面通过代理对实现
+            if (code < 0x80) {
                 // 1 字节 (ASCII)
                 array.push(code);
             } else if (code < 0x800) {
@@ -22,7 +21,7 @@ class UTF8 implements Encoding {
                 const item3 = 0x80 | 0x3F & code;
                 array.push(item1, item2, item3);
             } else {
-                // 4 字节 (UTF-16 辅助平面)
+                // 4 字节 (UTF-16 代理对)
                 // 高位代理 : 0xD800 - 0xDBFF
                 // 低位代理 : 0xDC00 - 0xDFFF
                 if (i == str.length - 1 || code > 0xDBFF) {
@@ -57,12 +56,12 @@ class UTF8 implements Encoding {
             } else if (code1 >>> 5 === 0x06) {
                 // 2 字节
                 if (i > array.length - 2) {
-                    continue;
+                    throw new RangeError();
                 }
                 const j = i + 1;
                 const code2 = array[j];
                 if (code2 >>> 6 !== 0x02) {
-                    continue;
+                    throw new RangeError();
                 }
                 const code = (code1 & 0x1F) << 6 | code2 & 0x3F;
                 str += String.fromCharCode(code);
@@ -70,43 +69,40 @@ class UTF8 implements Encoding {
             } else if (code1 >>> 4 === 0x0E) {
                 // 3 字节
                 if (i > array.length - 3) {
-                    continue;
+                    throw new RangeError();
                 }
                 let j = i + 1;
                 const code2 = array[j];
                 if (code2 >>> 6 !== 0x02) {
-                    continue;
+                    throw new RangeError();
                 }
                 j++;
                 const code3 = array[j];
                 if (code3 >>> 6 !== 0x02) {
-                    continue;
+                    throw new RangeError();
                 }
                 const code = (code1 & 0x0F) << 12 | (code2 & 0x3F) << 6 | code3 & 0x3F;
                 str += String.fromCharCode(code);
                 i = j;
-            } else if (code1 >>> 3 === 0x1E && code1 < 0xF5) {
-                // 4 字节 (UTF-16 辅助平面)
-                if (i > array.length - 4) {
-                    continue;
+            } else if (code1 >>> 3 === 0x1E) {
+                // 4 字节 (UTF-16 代理对)
+                if (i > array.length - 4 || code1 > 0xF4) {
+                    throw new RangeError();
                 }
                 let j = i + 1;
                 const code2 = array[j];
-                if (code2 >>> 6 !== 0x02) {
-                    continue;
-                }
-                if (code1 === 0xF4 && code2 > 0x8F) {
-                    continue;
+                if (code2 >>> 6 !== 0x02 || code1 === 0xF4 && code2 > 0x8F) {
+                    throw new RangeError();
                 }
                 j++;
                 const code3 = array[j];
                 if (code3 >>> 6 !== 0x02) {
-                    continue;
+                    throw new RangeError();
                 }
                 j++;
                 const code4 = array[j];
                 if (code4 >>> 6 !== 0x02) {
-                    continue;
+                    throw new RangeError();
                 }
                 let code = (code1 & 0x07) << 18 | (code2 & 0x3F) << 12 | (code3 & 0x3F) << 6 | code4 & 0x3F;
                 code = code - 0x10000;
@@ -116,7 +112,7 @@ class UTF8 implements Encoding {
                 str += String.fromCharCode(lower);
                 i = j;
             } else {
-                continue;
+                throw new RangeError();
             }
         }
         return str;
