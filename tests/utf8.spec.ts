@@ -16,15 +16,15 @@ const cases1 = [
 ];
 
 const cases2 = [
-    new EncodingCase("第 1 字节错误 : 左越界", "", [-1]),
-    new EncodingCase("第 1 字节错误 : 右越界", "", [0xF5]),
+    new EncodingCase("第 1 字节错误 : 越界", "", [0xF5]),
+    new EncodingCase("第 1 字节错误 : 1 字节", "", [0x80]),
     new EncodingCase("第 2 字节丢失 : 2 字节", "", [0xC0]),
     new EncodingCase("第 2 字节丢失 : 3 字节", "", [0xE0]),
     new EncodingCase("第 2 字节丢失 : 4 字节", "", [0xF0]),
     new EncodingCase("第 2 字节错误 : 2 字节", "", [0xC0, 0x00]),
     new EncodingCase("第 2 字节错误 : 3 字节", "", [0xE0, 0x00, 0x80]),
     new EncodingCase("第 2 字节错误 : 4 字节", "", [0xF0, 0x00, 0x80, 0x80]),
-    new EncodingCase("第 2 字节错误 : 右越界", "", [0xF4, 0x90, 0x80, 0x80]),
+    new EncodingCase("第 2 字节错误 : 越界", "", [0xF4, 0x90, 0x80, 0x80]),
     new EncodingCase("第 3 字节丢失 : 3 字节", "", [0xE0, 0x80]),
     new EncodingCase("第 3 字节丢失 : 4 字节", "", [0xF0, 0x80]),
     new EncodingCase("第 3 字节错误 : 3 字节", "", [0xE0, 0x80, 0x00]),
@@ -35,18 +35,22 @@ const cases2 = [
 
 suite("UTF8.toArray", () => {
     cases0.forEach(item => {
-        const actual = Encodings.UTF8.toArray(item.str);
-        const expected = item.array;
+        const actual = Encodings.UTF8.toBytes(item.str);
+        const expected = new Uint8Array(item.codes);
         test(item.title, () => assert.deepEqual(actual, expected));
     });
-    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toArray(item.str), RangeError)));
+    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toBytes(item.str), RangeError)));
 });
 
 suite("UTF8.toString", () => {
     cases0.forEach(item => {
-        const actual = Encodings.UTF8.toString(item.array);
+        const codes = new Uint8Array(item.codes);
+        const actual = Encodings.UTF8.toString(codes);
         const expected = item.str;
         test(item.title, () => assert.equal(actual, expected));
     });
-    cases2.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toString(item.array), RangeError)));
+    cases2.forEach(item => {
+        const codes = new Uint8Array(item.codes);
+        test(item.title, () => assert.throw(() => Encodings.UTF8.toString(codes), RangeError));
+    });
 });

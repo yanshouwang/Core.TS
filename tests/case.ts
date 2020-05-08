@@ -1,12 +1,12 @@
 class EncodingCase {
     readonly title: string;
     readonly str: string;
-    readonly array: number[];
+    readonly codes: number[];
 
-    constructor(title: string, oriStr: string, array: number[]) {
+    constructor(title: string, str: string, codes: number[]) {
         this.title = title;
-        this.str = oriStr;
-        this.array = array;
+        this.str = str;
+        this.codes = codes;
     }
 }
 

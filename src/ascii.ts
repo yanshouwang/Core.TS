@@ -1,29 +1,29 @@
 import { Encoding } from "./encoding";
 
 class ASCII implements Encoding {
-    toArray(str: string): number[] {
-        const array: number[] = [];
+    toBytes(str: string): Uint8Array {
+        const items: number[] = [];
         for (let i = 0; i < str.length; i++) {
             const code = str.charCodeAt(i);
             // UTF-16 编码范围 : 0 - 0xFFFF
             // ASCII 编码范围 : 0 - 0x7F
             if (code < 0x80) {
-                array.push(code);
+                items.push(code);
             } else {
                 throw new RangeError();
             }
         }
-        return array;
+        return new Uint8Array(items);
     }
 
-    toString(array: number[]): string {
+    toString(codes: Uint8Array): string {
         let str = "";
-        for (let i = 0; i < array.length; i++) {
-            const code = array[i];
-            if (code < 0 || code > 0x7F) {
-                throw new RangeError();
-            } else {
+        for (let i = 0; i < codes.length; i++) {
+            const code = codes[i];
+            if (code < 0x80) {
                 str += String.fromCharCode(code);
+            } else {
+                throw new RangeError();
             }
         }
         return str;

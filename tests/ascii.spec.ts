@@ -18,24 +18,27 @@ const cases1 = [
 ];
 
 const cases2 = [
-    new EncodingCase("数组左越界", "", [-1]),
-    new EncodingCase("数组右越界", "", [0x80])
+    new EncodingCase("数组越界", "", [0x80])
 ];
 
 suite("ASCII.toArray", () => {
     cases0.forEach(item => {
-        const actual = Encodings.ASCII.toArray(item.str);
-        const expected = item.array;
+        const actual = Encodings.ASCII.toBytes(item.str);
+        const expected = new Uint8Array(item.codes);
         test(item.title, () => assert.deepEqual(actual, expected));
     });
-    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.ASCII.toArray(item.str), RangeError)));
+    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.ASCII.toBytes(item.str), RangeError)));
 });
 
 suite("ASCII.toString", () => {
     cases0.forEach(item => {
-        const actual = Encodings.ASCII.toString(item.array);
+        const codes = new Uint8Array(item.codes);
+        const actual = Encodings.ASCII.toString(codes);
         const expected = item.str;
         test(item.title, () => assert.equal(actual, expected));
     });
-    cases2.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toString(item.array), RangeError)));
+    cases2.forEach(item => {
+        const codes = new Uint8Array(item.codes);
+        test(item.title, () => assert.throw(() => Encodings.ASCII.toString(codes), RangeError))
+    });
 });
