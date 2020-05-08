@@ -12,7 +12,7 @@
     "Core",
     "Encoding",
     "ASCII",
-    "UTF8"
+    "UTF-8"
   ],
   "repository": {
     "type": "git",
