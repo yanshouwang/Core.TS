@@ -1,6 +1,6 @@
 import { EncodingCase } from "./case";
-import { Encodings } from "../src/core";
 import { assert } from "chai";
+import { createCodec } from "../src/core";
 
 const cases0 = [
     new EncodingCase("BMP - 基本多文种平面", "Hello, World! - 你好，世界！ - Σ✨", [0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x21, 0x20, 0x2D, 0x20, 0xE4, 0xBD, 0xA0, 0xE5, 0xA5, 0xBD, 0xEF, 0xBC, 0x8C, 0xE4, 0xB8, 0x96, 0xE7, 0x95, 0x8C, 0xEF, 0xBC, 0x81, 0x20, 0x2D, 0x20, 0xCE, 0xA3, 0xE2, 0x9C, 0xA8]),
@@ -34,23 +34,25 @@ const cases2 = [
 ];
 
 suite("UTF8.toArray", () => {
+    const codec = createCodec("UTF-8");
     cases0.forEach(item => {
-        const actual = Encodings.UTF8.toBytes(item.str);
+        const actual = codec.encode(item.str);
         const expected = new Uint8Array(item.codes);
         test(item.title, () => assert.deepEqual(actual, expected));
     });
-    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toBytes(item.str), RangeError)));
+    cases1.forEach(item => test(item.title, () => assert.throw(() => codec.encode(item.str), RangeError)));
 });
 
 suite("UTF8.toString", () => {
+    const codec = createCodec("UTF-8");
     cases0.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        const actual = Encodings.UTF8.toString(codes);
+        const actual = codec.decode(codes);
         const expected = item.str;
         test(item.title, () => assert.equal(actual, expected));
     });
     cases2.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        test(item.title, () => assert.throw(() => Encodings.UTF8.toString(codes), RangeError));
+        test(item.title, () => assert.throw(() => codec.decode(codes), RangeError));
     });
 });
