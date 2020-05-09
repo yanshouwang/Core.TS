@@ -24,35 +24,33 @@ npm install --save @yanshouwang/core
 
 目前支持 ASCII 和 UTF-8
 
-- 字符串转字节数组
+编码
 
 ``` TS
-import { createCodec } from "@yanshouwang/core"
+import { Codec } from "@yanshouwang/core";
 
 // 准备数据
 const str = "Hello, World!";
-// UTF-8
-const codec = createCodec("UTF-8");
-const codes = codec.encode(str);
 // ASCII
-// const codec = createCodec("ASCII");
-// const codes = codec.encode(str);
+const codec = Codec.create("ASCII");
+// UTF-8
+// const codec = Codec.create("UTF-8");
+const codes = codec.encode(str);
 ```
 
-- 字节数组转字符串
+解码
 
 ``` TS
-import { createCodec } from "@yanshouwang/core"
+import { Codec } from "@yanshouwang/core";
 
 // 准备数据
 const items = [0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x21];
 const codes = new Uint8Array(items);
-// UTF-8
-const codec = createCodec("UTF-8");
-const str = codec.decode(codes);
 // ASCII
-// const codec = createCodec("ASCII");
-// const str = codec.decode(codes);
+const codec = Codec.create("ASCII");
+// UTF-8
+// const codec = Codec.create("UTF-8");
+const str = codec.decode(codes);
 ```
 
 ## 关于

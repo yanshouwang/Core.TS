@@ -1,4 +1,4 @@
-class EncodingCase {
+class Case {
     readonly title: string;
     readonly str: string;
     readonly codes: number[];
@@ -10,4 +10,4 @@ class EncodingCase {
     }
 }
 
-export { EncodingCase };
+export { Case };

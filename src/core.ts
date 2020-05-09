@@ -1,1 +1,1 @@
-export * from "./codec";
+export * as Codec from "./codec";

@@ -27,7 +27,7 @@ interface Codec {
  * @returns 编码译码器实例
  * @throws {RangeError} 不支持的编码方式
  */
-function createCodec(mode: "ASCII" | "UTF-8"): Codec {
+function create(mode: "ASCII" | "UTF-8"): Codec {
     switch (mode) {
         case "ASCII":
             return new ASCII();
@@ -38,4 +38,4 @@ function createCodec(mode: "ASCII" | "UTF-8"): Codec {
     }
 }
 
-export { Codec, createCodec };
+export { Codec, create };
