@@ -35,8 +35,8 @@ const str = "Hello, World!";
 const codec = createCodec("UTF-8");
 const codes = codec.encode(str);
 // ASCII
-const codec = createCodec("ASCII");
-const codes = codec.encode(str);
+// const codec = createCodec("ASCII");
+// const codes = codec.encode(str);
 ```
 
 - 字节数组转字符串
