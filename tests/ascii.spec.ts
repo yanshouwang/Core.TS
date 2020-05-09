@@ -1,6 +1,6 @@
 import { EncodingCase } from "./case";
-import { Encoding } from "../src/core";
 import { assert } from "chai";
+import { createCodec } from "../src/core";
 
 const cases0 = [
     new EncodingCase("符号 1", "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000B\f\r\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B\u001C\u001D\u001E\u001F", [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F]),
@@ -22,23 +22,25 @@ const cases2 = [
 ];
 
 suite("ASCII.toArray", () => {
+    const codec = createCodec("ASCII");
     cases0.forEach(item => {
-        const actual = Encoding.ASCII.toBytes(item.str);
+        const actual = codec.encode(item.str);
         const expected = new Uint8Array(item.codes);
         test(item.title, () => assert.deepEqual(actual, expected));
     });
-    cases1.forEach(item => test(item.title, () => assert.throw(() => Encoding.ASCII.toBytes(item.str), RangeError)));
+    cases1.forEach(item => test(item.title, () => assert.throw(() => codec.encode(item.str), RangeError)));
 });
 
 suite("ASCII.toString", () => {
+    const codec = createCodec("ASCII");
     cases0.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        const actual = Encoding.ASCII.toString(codes);
+        const actual = codec.decode(codes);
         const expected = item.str;
         test(item.title, () => assert.equal(actual, expected));
     });
     cases2.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        test(item.title, () => assert.throw(() => Encoding.ASCII.toString(codes), RangeError))
+        test(item.title, () => assert.throw(() => codec.decode(codes), RangeError));
     });
 });

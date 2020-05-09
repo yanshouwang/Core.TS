@@ -27,29 +27,33 @@ npm install --save @yanshouwang/core
 - 字符串转字节数组
 
 ``` TS
-import { Encodings } from "@yanshouwang/core"
+import { createCodec } from "@yanshouwang/core"
 
 // 准备数据
 const str = "Hello, World!";
 // UTF-8
-const codes = Encodings.UTF8.toBytes(str);
+const codec = createCodec("UTF-8");
+const codes = codec.encode(str);
 // ASCII
-// const codes = Encodings.ASCII.toBytes(str);
+const codec = createCodec("ASCII");
+const codes = codec.encode(str);
 ```
 
 - 字节数组转字符串
 
 ``` TS
-import { Encodings } from "@yanshouwang/core"
+import { createCodec } from "@yanshouwang/core"
 
 // 准备数据
 const items = [0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x21];
 const codes = new Uint8Array(items);
 // UTF-8
-const str = Encodings.UTF8.toString(codes);
+const codec = createCodec("UTF-8");
+const str = codec.decode(codes);
 // ASCII
-// const str = Encodings.ASCII.toString(codes);
+// const codec = createCodec("ASCII");
+// const str = codec.decode(codes);
 ```
 
 ## 关于
-- 本萌新的本命语言是 C#，对应 TypeScript 的理解有限，有问题欢迎指正
+- 本萌新的本命语言是 C#，对于 TypeScript 的理解有限，有问题欢迎指正

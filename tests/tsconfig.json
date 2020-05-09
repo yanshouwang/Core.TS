@@ -2,7 +2,8 @@
     "extends": "../tsconfig-base.json",
     "compilerOptions": {
         "composite": false,
-        "declaration": false
+        "declaration": false,
+        "strict": true
     },
     "references": [
         {
