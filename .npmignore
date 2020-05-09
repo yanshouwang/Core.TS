@@ -11,3 +11,5 @@ tests
 
 package-lock.json
 tsconfig.json
+
+dist/tsconfig.tsbuildinfo

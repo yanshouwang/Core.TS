@@ -6,7 +6,8 @@
   "types": "dist/core.d.ts",
   "scripts": {
     "test": "nyc --reporter=text --reporter=html mocha",
-    "build": "tsc"
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
   },
   "keywords": [
     "Core",
