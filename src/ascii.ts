@@ -1,6 +1,6 @@
-import { Encoding } from "./encoding";
+import { Encoder } from "./encoder";
 
-class ASCII implements Encoding {
+class ASCII implements Encoder {
     toBytes(str: string): Uint8Array {
         const items: number[] = [];
         for (let i = 0; i < str.length; i++) {

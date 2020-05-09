@@ -1,5 +1,5 @@
 import { EncodingCase } from "./case";
-import { Encodings } from "../src/core";
+import { Encoding } from "../src/core";
 import { assert } from "chai";
 
 const cases0 = [
@@ -35,22 +35,22 @@ const cases2 = [
 
 suite("UTF8.toArray", () => {
     cases0.forEach(item => {
-        const actual = Encodings.UTF8.toBytes(item.str);
+        const actual = Encoding.UTF8.toBytes(item.str);
         const expected = new Uint8Array(item.codes);
         test(item.title, () => assert.deepEqual(actual, expected));
     });
-    cases1.forEach(item => test(item.title, () => assert.throw(() => Encodings.UTF8.toBytes(item.str), RangeError)));
+    cases1.forEach(item => test(item.title, () => assert.throw(() => Encoding.UTF8.toBytes(item.str), RangeError)));
 });
 
 suite("UTF8.toString", () => {
     cases0.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        const actual = Encodings.UTF8.toString(codes);
+        const actual = Encoding.UTF8.toString(codes);
         const expected = item.str;
         test(item.title, () => assert.equal(actual, expected));
     });
     cases2.forEach(item => {
         const codes = new Uint8Array(item.codes);
-        test(item.title, () => assert.throw(() => Encodings.UTF8.toString(codes), RangeError));
+        test(item.title, () => assert.throw(() => Encoding.UTF8.toString(codes), RangeError));
     });
 });

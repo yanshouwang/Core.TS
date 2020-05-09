@@ -1,6 +1,6 @@
-import { Encoding } from "./encoding";
+import { Encoder } from "./encoder";
 
-class UTF8 implements Encoding {
+class UTF8 implements Encoder {
     toBytes(str: string): Uint8Array {
         const items: number[] = [];
         for (let i = 0; i < str.length; i++) {

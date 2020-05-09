@@ -1,4 +1,4 @@
-interface Encoding {
+interface Encoder {
     /**
      * 将指定字符串编码为字节数组
      * @param str 字符串
@@ -15,4 +15,4 @@ interface Encoding {
     toString(codes: Uint8Array): string;
 }
 
-export { Encoding };
+export { Encoder };
